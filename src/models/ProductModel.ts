@@ -5,7 +5,7 @@ class ProductModel {
   constructor(public dbConnection: Pool) {}
 
   public async create({ name, amount }: IProduct): Promise<IProduct> {
-    const query = 'INSERT INTO TrybeSmith.Products (name, amount) VALUES (?, ?)';
+    const query = 'INSERT INTO Trybesmith.Products (name, amount) VALUES (?, ?)';
 
     const [{ insertId }] = await this.dbConnection.execute<ResultSetHeader>(
       query,
