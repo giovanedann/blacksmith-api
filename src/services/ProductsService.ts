@@ -16,7 +16,10 @@ class ProductsService {
     const amountWarning = validateAmount(amount);
 
     if (nameWarning.message || amountWarning.message) {
-      return ({ message: nameWarning.message ?? amountWarning.message });
+      return ({
+        statusCode: nameWarning.statusCode ?? amountWarning.statusCode,
+        message: nameWarning.message ?? amountWarning.message,
+      });
     }
 
     const createdBook = await this.model.create({ name, amount });
