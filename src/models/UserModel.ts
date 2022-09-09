@@ -1,6 +1,6 @@
 import { Pool, ResultSetHeader } from 'mysql2/promise';
 import { IUser } from '../interfaces/User';
-import generateToken from '../utils/generateToken';
+import generateToken from '../helpers/generateToken';
 
 class UserModel {
   constructor(public connection: Pool) {}
