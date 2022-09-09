@@ -4,6 +4,13 @@ import ProductsService from '../services/ProductsService';
 class ProductController {
   constructor(private service = new ProductsService()) {
     this.create = this.create.bind(this);
+    this.index = this.index.bind(this);
+  }
+
+  public async index(_request: Request, response: Response) {
+    const products = await this.service.findAll();
+
+    return response.status(200).json(products);
   }
 
   public async create(request: Request, response: Response) {
