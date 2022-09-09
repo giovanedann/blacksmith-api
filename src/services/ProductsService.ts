@@ -26,6 +26,12 @@ class ProductsService {
 
     return createdBook;
   }
+
+  public async findAll(): Promise<IProduct[]> {
+    const products = await this.model.findAll();
+
+    return products;
+  }
 }
 
 export default ProductsService;
