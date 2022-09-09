@@ -11,12 +11,8 @@ class ProductController {
 
     const book = await this.service.create({ name, amount });
 
-    if ('message' in book && book.message?.includes('required')) {
-      return response.status(400).json({ message: book.message });
-    }
-
     if ('message' in book) {
-      return response.status(422).json({ message: book.message });
+      return response.status(book.statusCode as number).json({ message: book.message });
     }
 
     return response.status(201).json(book);
