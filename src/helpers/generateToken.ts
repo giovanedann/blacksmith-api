@@ -1,9 +1,13 @@
 import { sign } from 'jsonwebtoken';
 
-export default function generateToken(username: string, classe: string): string {
+interface IPayload {
+  [payloadKey: string]: string | number;
+}
+
+export default function generateToken(payload: IPayload): string {
   const JWT_SECRET = 'segredofoda123@';
 
-  const token = sign({ payload: { username, classe } }, JWT_SECRET, {
+  const token = sign({ payload }, JWT_SECRET, {
     expiresIn: '2d',
   });
 
