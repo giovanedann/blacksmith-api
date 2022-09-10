@@ -9,6 +9,7 @@ const routes = Router();
 routes.get('/products', ProductController.index);
 routes.post('/products', ProductController.create);
 routes.post('/users', UserController.create);
+routes.post('/login', UserController.authenticate);
 routes.get('/orders', OrderController.index);
 
 app.use(express.json());
