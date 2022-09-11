@@ -5,6 +5,14 @@ import generateToken from '../helpers/generateToken';
 class UserModel {
   constructor(public connection: Pool) {}
 
+  public async findById(id: number): Promise<IUser[] | []> {
+    const query = 'SELECT * FROM Trybesmith.Users WHERE id=(?);';
+
+    const [user] = await this.connection.execute(query, [id]);
+
+    return user as IUser[];
+  }
+
   public async findByLogin({ username, password }: ILogin): Promise<IUser[] | []> {
     const query = 'SELECT * FROM Trybesmith.Users WHERE username=(?) AND password=(?);';
 
