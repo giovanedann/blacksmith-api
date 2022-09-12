@@ -11,10 +11,7 @@ class ProductsService {
     this.model = new ProductModel(connection);
   }
 
-  public async create({
-    name,
-    amount,
-  }: IProduct): Promise<IProduct | IMessage> {
+  public async create({ name, amount }: IProduct): Promise<IProduct | IMessage> {
     const nameWarning = validateName(name);
     const amountWarning = validateAmount(amount);
 
@@ -28,6 +25,23 @@ class ProductsService {
     const createdBook = await this.model.create({ name, amount });
 
     return createdBook;
+  }
+
+  public async updateMany(productsId: number[], orderId: number): Promise<number[] | IMessage > {
+    if (!productsId) return { statusCode: 400, message: '"productsIds" is required' };
+    if (!Array.isArray(productsId)) {
+      return { statusCode: 422, message: '"productsIds" must be an array' };
+    }
+    if (!productsId.length) {
+      return { statusCode: 422, message: '"productsIds" must include only numbers' };
+    }
+
+    const productsIds = await Promise.all(productsId.map(async (id) => {
+      const productId = await this.model.update(id, orderId);
+      return productId;
+    }));
+
+    return productsIds;
   }
 
   public async findAll(): Promise<IProduct[]> {
