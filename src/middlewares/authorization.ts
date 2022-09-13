@@ -23,6 +23,7 @@ async function authorizate(request: Request, response: Response, next: NextFunct
     const { payload } = verify(authorization, JWT_SECRET) as IDecodedJWT;
     const [userExists] = await model.findById(payload.id);
     if (userExists) {
+      request.userId = payload.id;
       next(); 
     }
   } catch (e) {
