@@ -1,8 +1,6 @@
-import { verify } from 'jsonwebtoken';
 import { Request, Response } from 'express';
 import OrdersService from '../services/OrdersService';
 import ProductsService from '../services/ProductsService';
-import { IDecodedJWT } from '../middlewares/authorization';
 
 class OrderController {
   constructor(private service = new OrdersService()) {
@@ -17,14 +15,10 @@ class OrderController {
   }
 
   public async store(request: Request, response: Response) {
-    const JWT_SECRET = 'segredofoda123@';
-    const { authorization } = request.headers;
+    const { userId } = request;
     const { productsIds } = request.body;
 
-    const { payload } = verify(authorization as string, JWT_SECRET) as IDecodedJWT;
-    const userId = payload.id;
-
-    const insertId = await this.service.create(userId);
+    const insertId = await this.service.create(userId as number);
 
     const productService = new ProductsService();
     const products = await productService.updateMany(productsIds, insertId);
